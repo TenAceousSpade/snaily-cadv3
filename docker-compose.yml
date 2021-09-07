@@ -19,36 +19,5 @@ services:
     depends_on:
       - database
 
-  admin:
-    container_name: "SnailyCAD-PHPMyAdmin"
-    image: "phpmyadmin:5.1.0"
-    restart: always
-    ports:
-      - "8080:80"
-    environment:
-      PMA_HOST: "${DB_HOST}"
-      PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
-    depends_on:
-      - database
-
-  database:
-    container_name: "SnailyCAD-MySQL-Database"
-    image: "mysql:5.7"
-    volumes:
-      - db_data:/var/lib/mysql
-      - ./snaily-cad.sql:/docker-entrypoint-initdb.d/001_init.sql
-    restart: always
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-      MYSQL_DATABASE: "${DB_NAME}"
-      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
-    healthcheck:
-      test: "/etc/init.d/mysql status"
-      timeout: 5s
-      retries: 3
-
 volumes:
   db_data: {}
